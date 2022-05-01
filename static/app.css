@@ -1,0 +1,20 @@
+.container {
+    height: 500px;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.title {
+  margin: auto;
+  padding-left: 20px;
+}
+
+.center {
+  margin: auto;
+  width: 200px;
+  padding: 10px;
+}
