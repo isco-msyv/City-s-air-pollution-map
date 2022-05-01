@@ -25,7 +25,8 @@ def index():
         date = datetime.today().strftime("%Y-%m-%d")
         pollutant = 'co'
 
-    city = City(city_name, pollutant, int(datetime.strptime(date, "%Y-%m-%d").timestamp()))
+    timestamp = int(datetime.strptime(date, "%Y-%m-%d").timestamp())
+    city = City(city_name, pollutant, timestamp)
     try:
         folium_map = city.get_chunked_city_map()
     except Exception as e:
@@ -35,9 +36,11 @@ def index():
     if city.error:
         return render_template('error.html')
 
-    folium_map.save('templates/maps/map.html')
+    map_filename = f'map_{city_name}_{timestamp}_{pollutant}.html'
+
+    folium_map.save(f'templates/maps/{map_filename}')
     # return ""
-    return render_template('index.html', city_name=city_name, pollutant=pollutant, date=date)
+    return render_template('index.html', city_name=city_name, pollutant=pollutant, date=date, timestamp=timestamp, map_filename=map_filename)
 
 
 if __name__ == '__main__':
