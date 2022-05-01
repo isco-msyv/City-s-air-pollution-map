@@ -104,7 +104,6 @@ class City:
             openweathermap_api_url += f'lat={lat}&lon={lon}&start={self.timestamp}&end={self.timestamp}&appid={self.openweathermap_api_key}'
             data = requests.get(openweathermap_api_url)
             data = data.json()
-            print(data)
             polution_data = data.get('list', [])[0].get('components')
             if not polution_data: continue
             polution_data['PolygonId'] = polygon_data.get('PolygonId')
