@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 from process_city import City
 from datetime import datetime
+from models import CityPollutionData
 
 from database import db
 
@@ -39,8 +40,9 @@ def index():
     map_filename = f'map_{city_name}_{timestamp}_{pollutant}.html'
 
     folium_map.save(f'templates/maps/{map_filename}')
-    # return ""
-    return render_template('index.html', city_name=city_name, pollutant=pollutant, date=date, timestamp=timestamp, map_filename=map_filename)
+
+    cities = set([pollutant.city for pollutant in CityPollutionData.query.all()])
+    return render_template('index.html', city_name=city_name, pollutant=pollutant, date=date, timestamp=timestamp, map_filename=map_filename, cities=cities)
 
 
 if __name__ == '__main__':

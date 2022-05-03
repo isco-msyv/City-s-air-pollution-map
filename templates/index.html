@@ -18,7 +18,11 @@
         <div class="col-md-4">
             <div class="col-md-8">
                 <label for="city_name" class="form-label">City Name:</label>
-                <input class="form-control" type="text" id="city_name" name="city_name" value="{{city_name}}">
+                <select type="text" class="form-control" id="city_name" name="city_name">
+                {%for city in cities%}
+                  <option {{'selected' if city==city_name else ''}} value="{{city}}">{{ city|title }}</option>
+                {%endfor%}
+                </select>
             </div>
         </div>
         <div class="col-md-4">
