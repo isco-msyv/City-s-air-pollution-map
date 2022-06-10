@@ -23,7 +23,14 @@ class City:
         self.timestamp = timestamp
 
     def load_geometry_info(self):
+        CityPollutionData.query.filter_by(city="berlin").delete()
+        CityPollutionData.query.filter_by(city="rome").delete()
+
+        if self.name == "berlin":
+            CityGeometry.query.filter_by(city=self.name).delete()
+
         city_geojson = CityGeometry.query.filter_by(city=self.name).first()
+
         if city_geojson:
             self.city_geojson = city_geojson.geometry
             self.city_lat = self.city_geojson.get('city_lat')
@@ -41,7 +48,7 @@ class City:
 
         city_geodata = None
         for data in geodata:
-            if 'geojson' in data.keys() and data['geojson']['type'] == 'Polygon' and data['geojson']['coordinates']:
+            if 'geojson' in data.keys() and data['geojson']['coordinates']:
                 city_geodata = data
                 break
 
@@ -65,6 +72,9 @@ class City:
         CityGeometry.add(self.name, self.city_geojson)
 
     def load_pollygon_list(self):
+        if self.name == "berlin":
+            CityPolygonList.query.filter_by(city=self.name).delete()
+
         pollygons = CityPolygonList.query.filter_by(city=self.name).first()
         if pollygons:
             self.pollygons_list = pollygons.pollygons_list
@@ -92,7 +102,11 @@ class City:
     def load_pollution_data(self):
         self.pollution_data = {}
 
-        pollution_data = CityPollutionData.query.filter_by(city=self.name, timestamp=self.timestamp).first()
+        if self.name == "berlin":
+            CityPollutionData.query.filter_by(city=self.name).delete()
+
+        pollution_data = CityPollutionData.query.filter_by(city=self.name).first()
+
         if pollution_data:
             self.pollution_data = pollution_data.pollution
             return None

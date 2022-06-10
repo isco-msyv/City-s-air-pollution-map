@@ -16,6 +16,7 @@ with app.app_context():
 
 @app.route('/')
 def index():
+
     args = request.args
     city_name = args.get('city_name', 'wroclaw')
     if not city_name: city_name = 'wroclaw'
